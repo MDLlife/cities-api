@@ -12,6 +12,7 @@ import (
 	"github.com/Sirupsen/logrus"
 	"strings"
 	"cities-api/src/server"
+	"os/exec"
 )
 
 var (
@@ -85,9 +86,17 @@ func init() {
 }
 
 func main() {
-	fmt.Println("* Booting cities service...")
 
-	fmt.Println("* Loading configuration...")
+	out, err := exec.Command("/bin/sh", "getdumpfiles.sh").Output()
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Infof("We managed to download all files and prepare for the DB ??  %s\n", out)
+
+
+	log.Info("* Booting cities service...")
+
+	log.Info("* Loading configuration...")
 
 	options := &config.Options{
 		Port:               Port,
@@ -100,7 +109,7 @@ func main() {
 		AlternateNamesFile: AlternateNamesFile,
 	}
 
-	fmt.Println("* Connecting to the database...")
+	log.Info("* Connecting to the database...")
 	db, err := bolt.Open("cities.db", 0600, nil)
 	if err != nil {
 		panic(fmt.Sprintf("[DB] Couldn't connect to the db: %v", err))
@@ -110,7 +119,7 @@ func main() {
 	parsingDone := make(chan bool, 1)
 
 	if ds.GetAppStatus(db).IsIndexed() {
-		fmt.Println("[PARSER] Skipping, already done")
+		log.Info("[PARSER] Skipping, already done")
 		parsingDone <- true
 	} else {
 		go parser.Scan(
@@ -121,10 +130,10 @@ func main() {
 	}
 
 	<-parsingDone
-	fmt.Println("[CACHE] Warming up...")
+	log.Info("[CACHE] Warming up...")
 	server.WarmUpSearchCache(db, c, Locales, 5)
-	fmt.Println("[CACHE] Warming up done")
+	log.Info("[CACHE] Warming up done")
 
-	fmt.Printf("* Listening on port %s\n\n", Port)
+	log.Infof("* Listening on port %s\n\n", Port)
 	log.Fatal(server.Server(db, options, c).ListenAndServe())
 }
