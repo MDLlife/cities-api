@@ -8,6 +8,8 @@ unzip $PWD/cities1000.zip -d $PWD/data || true
 rm $PWD/cities1000.zip || true
 curl -O http://download.geonames.org/export/dump/alternateNames.zip || true
 unzip $PWD/alternateNames.zip -d $PWD/data || true
+sleep 15
 rm $PWD/alternateNames.zip || true
 rm $PWD/data/iso-languagecodes.txt || true
 (cd $PWD/data && curl -O http://download.geonames.org/export/dump/countryInfo.txt) || true
+sleep 10
