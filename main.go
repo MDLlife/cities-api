@@ -13,6 +13,7 @@ import (
 	"strings"
 	"cities-api/src/server"
 	"os/exec"
+	"time"
 )
 
 var (
@@ -93,6 +94,12 @@ func main() {
 	}
 	log.Infof("We managed to download all files and prepare for the DB ??  %s\n", out)
 
+	time.Sleep(time.Second * 10)
+
+	dir, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	log.Info("* Booting cities service...")
 
@@ -104,9 +111,9 @@ func main() {
 		CORSOrigins:        CORSOrigins,
 		Locales:            Locales,
 		MinPopulation:      MinPopulation,
-		CountriesFile:      CountriesFile,
-		CitiesFile:         CitiesFile,
-		AlternateNamesFile: AlternateNamesFile,
+		CountriesFile:      dir+CountriesFile,
+		CitiesFile:         dir+CitiesFile,
+		AlternateNamesFile: dir+AlternateNamesFile,
 	}
 
 	log.Info("* Connecting to the database...")
