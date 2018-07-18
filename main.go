@@ -42,6 +42,11 @@ var (
 
 func init() {
 
+	dir, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	if Port == "" {
 		Port = "8080"
 	}
@@ -64,11 +69,11 @@ func init() {
 	}
 
 	if CitiesFile == "" {
-		CitiesFile = "data/cities1000.txt"
+		CitiesFile = dir+"/data/cities1000.txt"
 	}
 
 	if CountriesFile == "" {
-		CountriesFile = "data/countryInfo.txt"
+		CountriesFile = dir+"/data/countryInfo.txt"
 	}
 
 	if MinPopulationSTR != "" {
@@ -81,7 +86,7 @@ func init() {
 	}
 
 	if AlternateNamesFile == "" {
-		AlternateNamesFile = "data/alternateNames.txt"
+		AlternateNamesFile = dir+"/data/alternateNames.txt"
 	}
 
 }
@@ -96,14 +101,11 @@ func main() {
 
 	time.Sleep(time.Second * 15)
 
-	dir, err := os.Getwd()
-	if err != nil {
-		log.Fatal(err)
-	}
+
 
 	log.Info("* Booting cities service...")
 
-	log.Info("* Loading configuration...")
+
 
 	options := &config.Options{
 		Port:               Port,
@@ -111,10 +113,12 @@ func main() {
 		CORSOrigins:        CORSOrigins,
 		Locales:            Locales,
 		MinPopulation:      MinPopulation,
-		CountriesFile:      dir+CountriesFile,
-		CitiesFile:         dir+CitiesFile,
-		AlternateNamesFile: dir+AlternateNamesFile,
+		CountriesFile:      CountriesFile,
+		CitiesFile:         CitiesFile,
+		AlternateNamesFile: AlternateNamesFile,
 	}
+
+	log.Info("* Loading configuration...", options)
 
 	log.Info("* Connecting to the database...")
 	db, err := bolt.Open("cities.db", 0600, nil)

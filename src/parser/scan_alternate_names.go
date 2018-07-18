@@ -15,10 +15,10 @@ var log *logrus.Entry = logrus.WithField("package", "parser")
 func scanAlternateNames(
 	db *bolt.DB, filename string, locales []string,
 ) (int, error) {
-	log.Info("Going to scan AlternateNames", filename)
+	log.Info("Going to scan AlternateNames, ", filename)
 	file, err := os.Open(filename)
 	if err != nil {
-		log.WithError(err).Error("Could not find AlternateNames", filename)
+		log.WithError(err).Error("Could not find AlternateNames, ", filename)
 		return 0, err
 	}
 	defer file.Close()
