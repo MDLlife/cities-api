@@ -25,6 +25,9 @@
 #   unused-packages = true
 
 [metadata.heroku]
+  root-package = "cities-api"
+  ensure = "false"
+  go-version = "go1.10.1"
   install = [ "make prepare"]
 
 [[constraint]]
