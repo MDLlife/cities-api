@@ -94,7 +94,7 @@ func main() {
 	}
 	log.Infof("We managed to download all files and prepare for the DB ??  %s\n", out)
 
-	time.Sleep(time.Second * 10)
+	time.Sleep(time.Second * 15)
 
 	dir, err := os.Getwd()
 	if err != nil {
