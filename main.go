@@ -12,8 +12,6 @@ import (
 	"github.com/Sirupsen/logrus"
 	"strings"
 	"cities-api/src/server"
-	"os/exec"
-	"time"
 )
 
 var (
@@ -93,13 +91,13 @@ func init() {
 
 func main() {
 
-	out, err := exec.Command("/bin/sh", "getdumpfiles.sh").Output()
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.Infof("We managed to download all files and prepare for the DB ??  %s\n", out)
-
-	time.Sleep(time.Second * 15)
+	//out, err := exec.Command("/bin/sh", "getdumpfiles.sh").Output()
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//log.Infof("We managed to download all files and prepare for the DB ??  %s\n", out)
+	//
+	//time.Sleep(time.Second * 15)
 
 
 
