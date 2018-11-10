@@ -147,4 +147,7 @@ This project is released under the [MIT License](http://www.opensource.org/licen
 flynn env set BUILDPACK_URL=https://github.com/heroku/heroku-buildpack-go
 
 flynn cluster default mdl.live
+
+PORT=80
+CORS_ORIGINS=https://www.mdl.live
 ```
